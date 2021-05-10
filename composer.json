@@ -1,0 +1,40 @@
+{
+    "name": "cryonighter/object-column",
+    "description": "This package provides the object_column() function, which works similarly to the array_column() function of the standard library, but having the ability to work with objects",
+    "minimum-stability": "stable",
+    "homepage": "https://github.com/cryonighter/object-column",
+    "license": "MIT",
+    "type": "library",
+    "version": "1.0.0",
+    "keywords": [
+        "array_column",
+        "object_column",
+        "iterable_column",
+        "object",
+        "column",
+        "iterable"
+    ],
+    "authors": [
+        {
+            "name": "Andrey Reshetchenko",
+            "email": "cryonighter@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.5.*"
+    },
+    "autoload": {
+        "files": ["src/object_column.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cryonighter\\ObjectColumn\\Test\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
