@@ -206,17 +206,17 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 [PSR-2]: http://www.php-fig.org/psr/psr-2/
 [PSR-4]: http://www.php-fig.org/psr/psr-4/
 
-[ico-version]: https://img.shields.io/packagist/v/cryonighter/inn-checksum.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/cryonighter/object-column.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/cryonighter/inn-checksum/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/cryonighter/inn-checksum.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/cryonighter/inn-checksuminn-checksum.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/cryonighter/inn-checksum.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/cryonighter/object-column/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/cryonighter/object-column.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/cryonighter/object-column.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/cryonighter/object-column.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/cryonighter/inn-checksum
-[link-travis]: https://travis-ci.org/cryonighter/inn-checksum
-[link-scrutinizer]: https://scrutinizer-ci.com/g/cryonighter/inn-checksum/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/cryonighter/inn-checksum
-[link-downloads]: https://packagist.org/packages/cryonighter/inn-checksum
+[link-packagist]: https://packagist.org/packages/cryonighter/object-column
+[link-travis]: https://travis-ci.org/cryonighter/object-column
+[link-scrutinizer]: https://scrutinizer-ci.com/g/cryonighter/object-column/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/cryonighter/object-column
+[link-downloads]: https://packagist.org/packages/cryonighter/object-column
 [link-author]: https://github.com/cryonighter
 [link-contributors]: ../../contributors
