@@ -28,7 +28,7 @@ In addition, the **object_column()** function supports call chainings.
 
 You need:
 
-- **PHP >= 7.1.0** but the latest stable version of PHP is recommended
+- **PHP >= 8.1.0** but the latest stable version of PHP is recommended
 
 ## Install
 
