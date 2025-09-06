@@ -83,14 +83,14 @@ class RecursiveObjectColumnTest extends TestCase
 
         $firstGetters = [
             new class {
-                public function getFoo() {
+                public function getFoo(): object {
                     return new class {
                         public function baz(): string {
                             return '123';
                         }
                     };
                 }
-                public function getBar() {
+                public function getBar(): object {
                     return new class {
                         public function buz(): string {
                             return '456';
@@ -99,14 +99,14 @@ class RecursiveObjectColumnTest extends TestCase
                 }
             },
             new class {
-                public function getFoo() {
+                public function getFoo(): object {
                     return new class {
                         public function baz(): string {
                             return 'qwe';
                         }
                     };
                 }
-                public function getBar() {
+                public function getBar(): object {
                     return new class {
                         public function buz(): string {
                             return 'asd';
@@ -118,32 +118,32 @@ class RecursiveObjectColumnTest extends TestCase
 
         $firstMethods = [
             new class {
-                public function foo(): string {
+                public function foo(): object {
                     return new class {
                         public function getBaz(): string {
                             return '123';
                         }
                     };
                 }
-                public function bar(): string {
+                public function bar(): object {
                     return new class {
-                        public function getBaz(): string {
+                        public function getBuz(): string {
                             return '456';
                         }
                     };
                 }
             },
             new class {
-                public function foo(): string {
+                public function foo(): object {
                     return new class {
                         public function getBaz(): string {
                             return 'qwe';
                         }
                     };
                 }
-                public function bar(): string {
+                public function bar(): object {
                     return new class {
-                        public function getBaz(): string {
+                        public function getBuz(): string {
                             return 'asd';
                         }
                     };
@@ -151,6 +151,6 @@ class RecursiveObjectColumnTest extends TestCase
             },
         ];
 
-        return [[$array, $arrayAccess, $firstGetters, $firstMethods]];
+        return [[$array], [$arrayAccess], [$firstGetters], [$firstMethods]];
     }
 }

@@ -148,6 +148,6 @@ class ObjectColumnTest extends TestCase
             },
         ];
 
-        return [[$array, $arrayAccess, $properties, $getters, $methods]];
+        return [[$array], [$arrayAccess], [$properties], [$getters], [$methods]];
     }
 }

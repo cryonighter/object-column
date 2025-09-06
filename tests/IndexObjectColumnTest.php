@@ -2,6 +2,7 @@
 
 namespace Cryonighter\ObjectColumn\Test;
 
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use function Cryonighter\ObjectColumn\object_column;
@@ -9,23 +10,11 @@ use function Cryonighter\ObjectColumn\object_column;
 class IndexObjectColumnTest extends TestCase
 {
     /**
-     * @dataProvider propertyAccessProvider
+     * @dataProvider arrayProvider
      *
      * @param array $data
      */
-    public function testWithoutKeys(array $data): void
-    {
-        $result = object_column($data);
-
-        $this->assertEquals($data, $result);
-    }
-
-    /**
-     * @dataProvider propertyAccessProvider
-     *
-     * @param array $data
-     */
-    public function testWithKeys(array $data): void
+    public function testArray(array $data): void
     {
         $result = object_column($data, null, 'bar.buz');
 
@@ -43,9 +32,43 @@ class IndexObjectColumnTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * @dataProvider arrayAccessProvider
+     *
+     * @param array $data
+     */
+    public function testArrayAccess(array $data): void
+    {
+        $result = object_column($data, null, 'bar.buz');
+
+        $expected = [
+            '456' => new ArrayObject([
+                'foo' => new ArrayObject(['baz' => '123']),
+                'bar' => new ArrayObject(['buz' => '456']),
+            ]),
+            'asd' => new ArrayObject([
+                'foo' => new ArrayObject(['baz' => 'qwe']),
+                'bar' => new ArrayObject(['buz' => 'asd']),
+            ]),
+        ];
+
+        $this->assertEquals($expected, $result);
+    }
 
     /**
-     * @dataProvider propertyAccessProvider
+     * @dataProvider allProvider
+     *
+     * @param array $data
+     */
+    public function testWithoutParams(array $data): void
+    {
+        $result = object_column($data);
+
+        $this->assertEquals($data, $result);
+    }
+
+    /**
+     * @dataProvider allProvider
      *
      * @param array $data
      */
@@ -59,7 +82,7 @@ class IndexObjectColumnTest extends TestCase
     /**
      * @return array
      */
-    public function propertyAccessProvider(): array
+    public function arrayProvider(): array
     {
         $array = [
             [
@@ -73,5 +96,35 @@ class IndexObjectColumnTest extends TestCase
         ];
 
         return [[$array]];
+    }
+
+    /**
+     * @return array
+     */
+    public function arrayAccessProvider(): array
+    {
+        $arrayAccess = [
+            new ArrayObject([
+                'foo' => new ArrayObject(['baz' => '123']),
+                'bar' => new ArrayObject(['buz' => '456']),
+            ]),
+            new ArrayObject([
+                'foo' => new ArrayObject(['baz' => 'qwe']),
+                'bar' => new ArrayObject(['buz' => 'asd']),
+            ]),
+        ];
+
+        return [[$arrayAccess]];
+    }
+
+    /**
+     * @return array
+     */
+    public function allProvider(): array
+    {
+        return [
+            ...$this->arrayProvider(),
+            ...$this->arrayAccessProvider(),
+        ];
     }
 }

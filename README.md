@@ -70,14 +70,14 @@ use function Cryonighter\ObjectColumn\object_column;
 
 $objects = [
     new class {
-        public function getFoo() {
+        public function getFoo(): object {
             return new class {
                 public function baz(): string {
                     return '123';
                 }
             };
         }
-        public function getBar() {
+        public function getBar(): object {
             return new class {
                 public function buz(): string {
                     return '456';
@@ -86,14 +86,14 @@ $objects = [
         }
     },
     new class {
-        public function getFoo() {
+        public function getFoo(): object {
             return new class {
                 public function baz(): string {
                     return 'qwe';
                 }
             };
         }
-        public function getBar() {
+        public function getBar(): object {
             return new class {
                 public function buz(): string {
                     return 'asd';
