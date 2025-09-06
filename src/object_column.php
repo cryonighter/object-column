@@ -8,20 +8,27 @@ use RuntimeException;
 /**
  * @link https://github.com/cryonighter/object-column
  *
- * @param iterable    $objects
- * @param string|null $columnKey
- * @param string|null $indexKey
+ * @param iterable             $objects
+ * @param string|callable|null $columnKey
+ * @param string|callable|null $indexKey
  *
  * @return array
  */
-function object_column(iterable $objects, ?string $columnKey = null, ?string $indexKey = null): array
-{
-    $columnResolver = function ($object, string $columnPath) use (&$columnResolver) {
+function object_column(
+    iterable $objects,
+    string|callable|null $columnKey = null,
+    string|callable|null $indexKey = null,
+): array {
+    $columnResolver = static function (object|array $object, string $columnPath) use (&$columnResolver) {
         $columnChain = explode('.', $columnPath, 2);
         $columnName = array_shift($columnChain);
 
         if (isset($object->$columnName)) {
             $value = $object->$columnName;
+        } elseif (is_array($object) && array_key_exists($columnName, $object)) {
+            $value = $object[$columnName];
+        } elseif ($object instanceof ArrayAccess && $object->offsetExists($columnName)) {
+            $value = $object->offsetGet($columnName);
         } elseif (is_object($object)) {
             $getter = 'get' . ucfirst($columnName);
             $hasser = 'has' . ucfirst($columnName);
@@ -38,10 +45,6 @@ function object_column(iterable $objects, ?string $columnKey = null, ?string $in
             } else {
                 throw new RuntimeException("Column key '$columnName' not found in class " . get_class($object));
             }
-        } elseif (is_array($object) && array_key_exists($columnName, $object)) {
-            $value =  $object[$columnName];
-        } elseif ($object instanceof ArrayAccess && $object->offsetExists($columnName)) {
-            $value =  $object->offsetGet($columnName);
         } else {
             throw new RuntimeException("Is not array or object");
         }
@@ -56,13 +59,17 @@ function object_column(iterable $objects, ?string $columnKey = null, ?string $in
     $result = [];
 
     foreach ($objects as $object) {
-        if ($columnKey !== null && $columnKey !== '') {
+        if (is_callable($columnKey)) {
+            $value = $columnKey($object);
+        } elseif ($columnKey !== null && $columnKey !== '') {
             $value = $columnResolver($object, $columnKey);
         } else {
             $value = $object;
         }
 
-        if ($indexKey !== null && $indexKey !== '') {
+        if (is_callable($indexKey)) {
+            $result[$indexKey($object)] = $value;
+        } elseif ($indexKey !== null && $indexKey !== '') {
             $result[$columnResolver($object, $indexKey)] = $value;
         } else {
             $result[] = $value;

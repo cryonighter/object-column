@@ -41,7 +41,6 @@ class RecursiveObjectColumnTest extends TestCase
         $this->assertEquals('qwe', $result['asd']);
     }
 
-
     /**
      * @dataProvider propertyAccessProvider
      *

@@ -103,7 +103,7 @@ $objects = [
     },
 ];
 
-$result = object_column($data, 'foo.baz', 'bar.buz');
+$result = object_column($objects, 'foo.baz', 'bar.buz');
 ```
 
 ##### Example №3: chain of calls to ArrayAccess objects
@@ -122,7 +122,7 @@ $objects = [
     ]),
 ];
 
-$result = object_column($data, 'foo.baz', 'bar.buz');
+$result = object_column($objects, 'foo.baz', 'bar.buz');
 ```
 
 ##### Result
@@ -133,16 +133,67 @@ In all cases, the result will be the same
 [456 => '123', 'asd' => 'qwe']
 ```
 
-### Array indexing
+### Callable arguments
 
-Also, the function can be used to index an array, for this it is enough not to pass the first argument
+For more complex cases, you can pass your own handlers, which will be applied to all objects of the first nesting level.
+You will have to implement the handle of the following nesting levels yourself in your callback functions.
 
-##### Example №4: array indexing
+##### Example №4: callable arguments
 
 ``` php
 use function Cryonighter\ObjectColumn\object_column;
 
-$objects =  [
+$objects = [
+    new class {
+        public function getFoo(): string {
+            return '123';
+        }
+        public function getBar(): string {
+            return '456';
+        }
+        public function getBaz(): string {
+            return '789';
+        }
+    },
+    new class {
+        public function getFoo(): string {
+            return 'qwe';
+        }
+        public function getBar(): string {
+            return 'asd';
+        }
+        public function getBaz(): string {
+            return 'zxc';
+        }
+    },
+];
+
+$result = object_column(
+    $objects,
+    fn(object $object): string => $object->getFoo() . '-' . $object->getBar(),
+    fn(object $object): string => $object->getBar() . '-' . $object->getBaz(),
+);
+```
+
+##### Result
+
+``` php
+[
+    '456-789' => '123-456',
+    'asd-zxc' => 'qwe-asd',
+];
+```
+
+### Array indexing
+
+Also, the function can be used to index an array, for this it is enough not to pass the first argument
+
+##### Example №5: array indexing
+
+``` php
+use function Cryonighter\ObjectColumn\object_column;
+
+$objects = [
     [
         'foo' => ['baz' => '123'],
         'bar' => ['buz' => '456'],
@@ -153,7 +204,9 @@ $objects =  [
     ],
 ];
 
-$result = object_column($data, null, 'bar.buz');
+$result = object_column($objects, null, 'bar.buz');
+// or
+$result = object_column($objects, indexKey: 'bar.buz');
 ```
 
 ##### Result
@@ -170,6 +223,8 @@ $result = object_column($data, null, 'bar.buz');
     ],
 ];
 ```
+
+For clarity, an example with a simple array is given, but it will work for all the cases listed above.
 
 If no second or third argument is passed to the function, the original array will be returned.
 This operation is meaningless.
